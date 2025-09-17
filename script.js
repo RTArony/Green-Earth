@@ -6,8 +6,8 @@ fetch("https://openapi.programming-hero.com/api/categories")
 const catagoryNameDisplay = (categoryArray)=>{
     const parent= document.getElementById("category-name")
     for(let category of categoryArray){
-        const newCategory= document.createElement('div')
-        newCategory.innerHTML=`<p class="text-xl my-2">${category.category_name}</p>`
+        const newCategory= document.createElement('div');
+        newCategory.innerHTML=`<p class="text-xl my-2 text-center">${category.category_name}</p>`
         parent.appendChild(newCategory)
     }
 }
