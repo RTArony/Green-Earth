@@ -26,7 +26,7 @@ const PlantsShow = (plants)=> {
         plantCard.innerHTML=`
                     <div class=" bg-white rounded-xl p-4 space-y-2">
                         <img class="h-100" src="${plant.image}" alt="">
-                        <h3 class="font-bold text-xl">${plant.name}</h3>
+                        <button onclick="loadPlantDetails(${plant.id})" class="font-bold text-xl">${plant.name}</button>
                         <p class="text-gray-500">${plant.description}</p>
                         <div class="flex justify-between items-center">
                             <p class="bg-[#DCFCE7] text-[#15803D] font-bold rounded-full p-2">${plant.category}</p>
@@ -53,3 +53,32 @@ document.getElementById("all-tree-btn").addEventListener("click", ()=>{
     .then(res=> res.json())
     .then(data=> PlantsShow(data.plants))
 })
+
+
+// plats details with modal
+const loadPlantDetails=(id)=>{
+    fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
+    .then(res=>res.json())
+    .then(data=>showPlantDetails(data.plants))
+}
+
+const showPlantDetails=(plant)=>{
+    const parent=document.getElementById("tree-details")
+    // parent.innerHTML=""
+    // const plantDetails=document.createElement('div')
+    parent.innerHTML=`<p class="font-bold text-xl">Product id: <span>${plant.id}</span></p>
+                    <img class="h-100" src="${plant.image}" alt="">
+                    <button class="font-bold text-xl">${plant.name}</button>
+                    <p class="text-gray-500">${plant.description}</p>
+                    <div class="flex justify-between items-center">
+                        <p class="bg-[#DCFCE7] text-[#15803D] font-bold rounded-full p-2">${plant.category}</p>
+                        <p class="font-bold">$<span>${plant.price}</span></p>
+                    </div>
+                    <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn">Close</button>
+                    </form>
+                    </div>`
+    document.getElementById("my_modal_1").showModal()
+}
