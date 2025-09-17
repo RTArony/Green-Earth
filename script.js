@@ -7,22 +7,21 @@ const catagoryNameDisplay = (categoryArray)=>{
     const parent= document.getElementById("category-name")
     for(let category of categoryArray){
         const newCategory= document.createElement('div');
-        newCategory.innerHTML=`<p class="text-xl my-2 text-center">${category.category_name}</p>`
+        newCategory.innerHTML=`<p onClick="categoryPlantShow(${category.id})" class="text-xl my-2 text-center">${category.category_name}</p>`
         parent.appendChild(newCategory)
     }
+    
 }
-
 
 // all plants load 
 fetch("https://openapi.programming-hero.com/api/plants")
 .then(res=> res.json())
-.then(data=> allPlantsShow(data.plants))
+.then(data=> PlantsShow(data.plants))
 
-const allPlantsShow = (plants)=> {
+const PlantsShow = (plants)=> {
     const parent =document.getElementById("plants-section")
     parent.innerHTML=""
     for(const plant of plants){
-        console.log(plant)
         const plantCard=document.createElement('div')
         plantCard.innerHTML=`
                     <div class=" bg-white rounded-xl p-4 space-y-2">
@@ -38,3 +37,19 @@ const allPlantsShow = (plants)=> {
         parent.appendChild(plantCard)
     }
 }
+
+
+// category based plant show 
+const categoryPlantShow=(id)=>{
+    const url= `https://openapi.programming-hero.com/api/category/${id}`
+    fetch(url)
+    .then(res=>res.json())
+    .then(data=>PlantsShow(data.plants))
+}
+
+// all tree button work
+document.getElementById("all-tree-btn").addEventListener("click", ()=>{
+    fetch("https://openapi.programming-hero.com/api/plants")
+    .then(res=> res.json())
+    .then(data=> PlantsShow(data.plants))
+})
