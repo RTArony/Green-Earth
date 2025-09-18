@@ -13,7 +13,21 @@ const catagoryNameDisplay = (categoryArray)=>{
     
 }
 
+
+const manageSpinner=(status)=>{
+    if(status){
+        document.getElementById("spinner").classList.remove("hidden")
+        document.getElementById("plants-section").classList.add("hidden")
+    }
+    else{
+        document.getElementById("spinner").classList.add("hidden")
+        document.getElementById("plants-section").classList.remove("hidden")
+    }
+}
+
+
 // all plants load 
+manageSpinner(true)
 fetch("https://openapi.programming-hero.com/api/plants")
 .then(res=> res.json())
 .then(data=> PlantsShow(data.plants))
@@ -36,6 +50,7 @@ const PlantsShow = (plants)=> {
                     </div>`
         parent.appendChild(plantCard)
     }
+    manageSpinner(false)
 }
 
 
@@ -65,13 +80,13 @@ document.getElementById("all-tree-btn").addEventListener("click", ()=>{
 
         const allTreeBtn=document.getElementById("all-tree-btn")
         allTreeBtn.classList.add("bg-green-700", "text-white")
-        
+
         PlantsShow(data.plants)
     })
 })
 
 
-// plats details with modal
+// plats details show with modal
 const loadPlantDetails=(id)=>{
     fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
     .then(res=>res.json())
@@ -99,6 +114,8 @@ const showPlantDetails=(plant)=>{
 
 
 
+
+// cart management
 let totalPrice = 0
 const addTocart = (price, name) => {
   const parent = document.getElementById("cart-container")
