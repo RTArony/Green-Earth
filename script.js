@@ -32,7 +32,7 @@ const PlantsShow = (plants)=> {
                             <p class="bg-[#DCFCE7] text-[#15803D] font-bold rounded-full p-2">${plant.category}</p>
                             <p class="font-bold">$<span>${plant.price}</span></p>
                         </div>
-                        <button class="bg-[#15803D] text-white font-semibold rounded-full p-2 w-full">Add to Cart</button>
+                        <button onclick="addTocart(${plant.price},'${plant.name}', ${plant.id})" class="bg-[#15803D] text-white font-semibold rounded-full p-2 w-full">Add to Cart</button>
                     </div>`
         parent.appendChild(plantCard)
     }
@@ -64,8 +64,6 @@ const loadPlantDetails=(id)=>{
 
 const showPlantDetails=(plant)=>{
     const parent=document.getElementById("tree-details")
-    // parent.innerHTML=""
-    // const plantDetails=document.createElement('div')
     parent.innerHTML=`<p class="font-bold text-xl">Product id: <span>${plant.id}</span></p>
                     <img class="h-100" src="${plant.image}" alt="">
                     <button class="font-bold text-xl">${plant.name}</button>
@@ -82,3 +80,30 @@ const showPlantDetails=(plant)=>{
                     </div>`
     document.getElementById("my_modal_1").showModal()
 }
+
+let totalPrice=0
+const addTocart=(price,name,id)=>{
+    const parent =document.getElementById("cart-container")
+    const newitem=document.createElement('div')
+    newitem.innerHTML=`<div class="flex justify-between items-center bg-[#F0FDF4] m-3 p-2 rounded-lg">
+                            <div>
+                                <p class="font-bold text-xl">${name}</p>
+                                <p class="text-gray-500 text-lg">$ ${price} </p>
+                            </div>
+                            <div>
+                                <button id="cross-btn${id}" class="text-gray-500 text-xl">✕</button>
+                            </div>
+                        </div>`
+    parent.appendChild(newitem)
+    totalPrice += price
+    const totalPriceShow = document.getElementById("total-price")
+    totalPriceShow.innerText = totalPrice
+
+    document.getElementById(`cross-btn${id}`).addEventListener("click",()=>{
+        parent.removeChild(newitem)
+        totalPrice -= price
+        const totalPriceShow = document.getElementById("total-price")
+        totalPriceShow.innerText = totalPrice
+    })
+}
+
